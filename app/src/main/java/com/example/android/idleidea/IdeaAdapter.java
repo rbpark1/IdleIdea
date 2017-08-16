@@ -50,6 +50,9 @@ public class IdeaAdapter extends ArrayAdapter {
 
         Idea currentIdea = ideas.get(position);
 
+        viewHolder.tvTitle.setText(currentIdea.getTitle());
+        viewHolder.tvTimeSince.setText(String.valueOf(currentIdea.getTime()));
+
         return convertView;
     }
 

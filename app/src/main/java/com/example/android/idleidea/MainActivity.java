@@ -27,12 +27,15 @@ public class MainActivity extends AppCompatActivity {
         Date date = new Date();
         long time = date.getTime();
 
-        List<Idea> ideas = dataSource.getAllIdeas();
-
-        IdeaAdapter adapter = new IdeaAdapter(MainActivity.this, R.layout.list_item, ideas);
+        IdeaAdapter adapter = new IdeaAdapter(MainActivity.this, R.layout.list_item, dataSource.getAllIdeas());
 
         listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(adapter);
+
+        dataSource.createIdea("work on projects", time);
+        dataSource.createIdea("listen to music", time);
+        adapter.notifyDataSetChanged();
+
 
 // test code
 //        dataSource.createIdea("work on projects", time);
