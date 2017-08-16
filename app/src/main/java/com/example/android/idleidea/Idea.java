@@ -42,4 +42,8 @@ public class Idea {
     public void setTime(long time) {
         this.time = time;
     }
+
+    public String toString() {
+        return id + " " + title + " " + time;
+    }
 }
