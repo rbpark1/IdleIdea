@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 //        this.deleteDatabase("ideas.db");
     }
 
-    private long getTime(){
+    private long getTime() {
         Date date = new Date();
         return date.getTime();
     }

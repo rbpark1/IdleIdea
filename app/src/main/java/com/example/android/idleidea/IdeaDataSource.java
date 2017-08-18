@@ -31,17 +31,17 @@ public class IdeaDataSource {
         database = dbHelper.getWritableDatabase();
     }
 
-    public void close(){
+    public void close() {
         dbHelper.close();
     }
 
-    public Idea createIdea(String title, long time){
+    public Idea createIdea(String title, long time) {
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_TITLE, title);
         values.put(MySQLiteHelper.COLUMN_TIME, time);
         long insertId = database.insert(MySQLiteHelper.TABLE_IDEAS, null, values);
         Cursor cursor = database.query(MySQLiteHelper.TABLE_IDEAS, allColumns,
-                MySQLiteHelper.COLUMN_ID + " = " + insertId, null, null ,null ,null);
+                MySQLiteHelper.COLUMN_ID + " = " + insertId, null, null, null, null);
         cursor.moveToFirst();
         Idea newIdea = cursorToIdea(cursor);
         cursor.close();
@@ -56,26 +56,26 @@ public class IdeaDataSource {
         return idea;
     }
 
-    public void deleteIdea(Idea idea){
+    public void deleteIdea(Idea idea) {
         long id = idea.getId();
         database.delete(MySQLiteHelper.TABLE_IDEAS, MySQLiteHelper.COLUMN_ID + " = " + id, null);
     }
 
-    public void updateIdea(Idea idea, String newTitle){
+    public void updateIdea(Idea idea, String newTitle) {
         long id = idea.getId();
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_TITLE, newTitle);
         database.update(MySQLiteHelper.TABLE_IDEAS, values, MySQLiteHelper.COLUMN_ID + " = ?",
-                new String[] { Long.toString(id) });
+                new String[]{Long.toString(id)});
     }
 
-    public List<Idea> getAllIdeas(){
+    public List<Idea> getAllIdeas() {
         List<Idea> ideas = new ArrayList<>();
 
         Cursor cursor = database.query(MySQLiteHelper.TABLE_IDEAS, allColumns,
                 null, null, null, null, null);
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()) {
+        while (!cursor.isAfterLast()) {
             Idea idea = cursorToIdea(cursor);
             ideas.add(idea);
             cursor.moveToNext();
@@ -84,7 +84,7 @@ public class IdeaDataSource {
         return ideas;
     }
 
-    public Cursor getCursor(){
+    public Cursor getCursor() {
         Cursor cursor = database.query(MySQLiteHelper.TABLE_IDEAS, allColumns,
                 null, null, null, null, null);
         cursor.moveToFirst();

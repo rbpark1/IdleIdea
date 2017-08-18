@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by Robby on 8/14/2017.
  */
 
-public class MySQLiteHelper extends SQLiteOpenHelper{
+public class MySQLiteHelper extends SQLiteOpenHelper {
 
     public static final String TABLE_IDEAS = "ideas";
 
