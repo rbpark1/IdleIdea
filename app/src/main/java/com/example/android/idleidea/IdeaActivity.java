@@ -1,8 +1,8 @@
 package com.example.android.idleidea;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,9 +12,11 @@ import java.util.List;
 
 /**
  * Created by Robby on 8/17/2017.
+ * Activity used to view details of an idea.
+ * Also used to create an activity.
  */
 
-public class IdeaActivity extends Activity {
+public class IdeaActivity extends AppCompatActivity {
 
     private static final String TAG_TITLE = "title";
 
@@ -28,6 +30,8 @@ public class IdeaActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_idea);
+
+
 
         editTextTitle = (EditText) findViewById(R.id.editTextTitle);
         buttonSave = (Button) findViewById(R.id.buttonSave);
@@ -58,14 +62,11 @@ public class IdeaActivity extends Activity {
                 public void onClick(View v) {
                     String text = editTextTitle.getText().toString();
                     if (!text.equals("")) {
-                        dataSource.open();
                         dataSource.createIdea(editTextTitle.getText().toString(), (new Date()).getTime());
-                        dataSource.close();
                     }
                     finish();
                 }
             });
         }
-        dataSource.close();
     }
 }
