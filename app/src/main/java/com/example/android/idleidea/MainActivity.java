@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CursorAdapter;
 import android.widget.ListView;
 
 import java.util.Date;
@@ -17,8 +18,8 @@ public class MainActivity extends AppCompatActivity {
     private ListView listView;
     private List<Idea> ideas;
 
-    IdeaDataSource dataSource;
-    IdeaAdapter adapter;
+    private IdeaDataSource dataSource;
+    private CursorAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         long time = getTime();
 
         ideas = dataSource.getAllIdeas();
-        adapter = new IdeaAdapter(MainActivity.this, R.layout.list_item, ideas);
+        adapter = new IdeaCursorAdapter(this, dataSource.getCursor());
 
         listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(adapter);
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         dataSource.open();
+        adapter.changeCursor(dataSource.getCursor());
         super.onResume();
     }
 

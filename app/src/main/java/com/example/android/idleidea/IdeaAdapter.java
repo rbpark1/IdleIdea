@@ -14,6 +14,8 @@ import java.util.List;
 
 /**
  * Created by Robby on 8/16/2017.
+ * NO LONGER BEING USED
+ *
  */
 
 public class IdeaAdapter extends ArrayAdapter {

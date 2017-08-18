@@ -84,4 +84,11 @@ public class IdeaDataSource {
         return ideas;
     }
 
+    public Cursor getCursor(){
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_IDEAS, allColumns,
+                null, null, null, null, null);
+        cursor.moveToFirst();
+        return cursor;
+    }
+
 }
