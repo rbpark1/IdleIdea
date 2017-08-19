@@ -18,9 +18,6 @@ public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
     private final String TAG_ID = "id";
 
-    private ListView listView;
-    private List<Idea> ideas;
-
     private IdeaDataSource dataSource;
     private CursorAdapter adapter;
 
@@ -32,20 +29,16 @@ public class MainActivity extends AppCompatActivity {
         dataSource = new IdeaDataSource(this);
         dataSource.open();
 
-        long time = getTime();
-
-        ideas = dataSource.getAllIdeas();
         adapter = new IdeaCursorAdapter(this, dataSource.getCursor());
 
-        listView = (ListView) findViewById(R.id.listView);
+        ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(TAG, "onItemClick: success");
-                int id_to_search = position;
                 Bundle bundle = new Bundle();
-                bundle.putInt(TAG_ID, id_to_search);
+                bundle.putInt(TAG_ID, position);
                 Intent intent = new Intent(getApplicationContext(), IdeaActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
