@@ -88,10 +88,12 @@ public class IdeaCursorAdapter extends CursorAdapter {
                 }
                 diff %= YEAR_MILLIS;
             }
-            output += " ";
+            output += ", ";
         }
+        output = output.substring(0, output.length() - 2);
 
-        output += "since you thought of this idea.";
+        output += " since you thought of this idea.";
+
         return output;
     }
 

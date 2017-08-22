@@ -28,6 +28,7 @@ public class IdeaActivity extends AppCompatActivity {
     private int value;
     private List<Idea> list;
     private Idea idea;
+    private Bundle extras;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,7 +41,7 @@ public class IdeaActivity extends AppCompatActivity {
         dataSource = new IdeaDataSource(this);
         dataSource.open();
 
-        Bundle extras = getIntent().getExtras();
+        extras = getIntent().getExtras();
         if (extras != null) {
             value = extras.getInt("id");
 
@@ -73,7 +74,9 @@ public class IdeaActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.idea_menu, menu);
+        if(extras != null) {
+            getMenuInflater().inflate(R.menu.idea_menu, menu);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
