@@ -28,10 +28,9 @@ public class IdeaActivity extends AppCompatActivity {
     private Button buttonSave;
     private TextView textViewTime;
     private IdeaDataSource dataSource;
-    private int value;
-    private List<Idea> list;
     private Idea idea;
     private Bundle extras;
+    private Date date;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,8 +47,8 @@ public class IdeaActivity extends AppCompatActivity {
 
         extras = getIntent().getExtras();
         if (extras != null) {
-            value = extras.getInt("id");
-            list = dataSource.getAllIdeas();
+            int value = extras.getInt("id");
+            List<Idea> list = dataSource.getAllIdeas();
             idea = list.get(value);
             editTextTitle.setText(idea.getTitle());
             editTextNotes.setText(idea.getNotes());
@@ -65,14 +64,14 @@ public class IdeaActivity extends AppCompatActivity {
                 }
             });
         } else {//create new idea
+            date = new Date();
+            textViewTime.setText("Created on " + new SimpleDateFormat("MM/dd/yyyy").format(date));
             buttonSave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     String title = editTextTitle.getText().toString();
                     String notes = editTextNotes.getText().toString();
                     if(!title.equals("")){
-                        Date date = new Date();
-                        textViewTime.setText("Created on " + new SimpleDateFormat("MM/dd/yyyy").format(date));
                         dataSource.createIdea(title, notes, date.getTime());
                     }//do not save a blank idea
 
