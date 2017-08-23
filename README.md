@@ -1,0 +1,2 @@
+# IdleIdea
+An idea tracker.
