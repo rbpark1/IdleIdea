@@ -8,6 +8,7 @@ public class Idea {
 
     private long id;
     private String title;
+    private String notes;
     private long time;
 
     public Idea(){
@@ -45,5 +46,13 @@ public class Idea {
 
     public String toString() {
         return id + " " + title + " " + time;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

@@ -49,6 +49,9 @@ public class IdeaCursorAdapter extends CursorAdapter {
         long diff = now - startTime;
 
         String output = "It has been ";
+        if(diff < MINUTE_MILLIS){
+            output += "0 minutes  ";
+        }
 
         while (diff >= MINUTE_MILLIS) {
             if (diff < 60 * MINUTE_MILLIS) {

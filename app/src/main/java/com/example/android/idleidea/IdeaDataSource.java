@@ -21,7 +21,7 @@ public class IdeaDataSource {
 
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
-    private String[] allColumns = {MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_TITLE, COLUMN_TIME};
+    private String[] allColumns = {MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_TITLE, MySQLiteHelper.COLUMN_NOTES, COLUMN_TIME};
 
     public IdeaDataSource(Context context) {
         dbHelper = new MySQLiteHelper(context);
@@ -35,9 +35,10 @@ public class IdeaDataSource {
         dbHelper.close();
     }
 
-    public Idea createIdea(String title, long time) {
+    public Idea createIdea(String title, String notes, long time) {
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_TITLE, title);
+        values.put(MySQLiteHelper.COLUMN_NOTES, title);
         values.put(MySQLiteHelper.COLUMN_TIME, time);
         long insertId = database.insert(MySQLiteHelper.TABLE_IDEAS, null, values);
         Cursor cursor = database.query(MySQLiteHelper.TABLE_IDEAS, allColumns,
@@ -52,7 +53,8 @@ public class IdeaDataSource {
         Idea idea = new Idea();
         idea.setId(cursor.getLong(0));
         idea.setTitle(cursor.getString(1));
-        idea.setTime(cursor.getLong(2));
+        idea.setNotes(cursor.getString(2));
+        idea.setTime(cursor.getLong(3));
         return idea;
     }
 
@@ -61,10 +63,11 @@ public class IdeaDataSource {
         database.delete(MySQLiteHelper.TABLE_IDEAS, MySQLiteHelper.COLUMN_ID + " = " + id, null);
     }
 
-    public void updateIdea(Idea idea, String newTitle) {
+    public void updateIdea(Idea idea, String newTitle, String newNotes) {
         long id = idea.getId();
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_TITLE, newTitle);
+        values.put(MySQLiteHelper.COLUMN_NOTES, newNotes);
         database.update(MySQLiteHelper.TABLE_IDEAS, values, MySQLiteHelper.COLUMN_ID + " = ?",
                 new String[]{Long.toString(id)});
     }

@@ -8,7 +8,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -20,10 +23,10 @@ import java.util.List;
 
 public class IdeaActivity extends AppCompatActivity {
 
-    private static final String TAG_TITLE = "title";
-
     private EditText editTextTitle;
+    private EditText editTextNotes;
     private Button buttonSave;
+    private TextView textViewTime;
     private IdeaDataSource dataSource;
     private int value;
     private List<Idea> list;
@@ -36,7 +39,9 @@ public class IdeaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_idea);
 
         editTextTitle = (EditText) findViewById(R.id.editTextTitle);
+        editTextNotes = (EditText) findViewById(R.id.editTextNotes);
         buttonSave = (Button) findViewById(R.id.buttonSave);
+        textViewTime = (TextView) findViewById(R.id.textViewTime);
 
         dataSource = new IdeaDataSource(this);
         dataSource.open();
@@ -44,28 +49,33 @@ public class IdeaActivity extends AppCompatActivity {
         extras = getIntent().getExtras();
         if (extras != null) {
             value = extras.getInt("id");
-
             list = dataSource.getAllIdeas();
             idea = list.get(value);
             editTextTitle.setText(idea.getTitle());
+            editTextNotes.setText(idea.getNotes());
+            textViewTime.setText("Created on " + new SimpleDateFormat("MM/dd/yyyy").format(new Date(idea.getTime())));
+
             buttonSave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String text = editTextTitle.getText().toString();
-                    if (!text.equals("")) {
-                        dataSource.updateIdea(list.get(value), text);
-                    }
+                    String title = editTextTitle.getText().toString();
+                    String notes = editTextNotes.getText().toString();
+                    dataSource.updateIdea(idea, title, notes);
                     finish();
                 }
             });
-        } else {
+        } else {//create new idea
             buttonSave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String text = editTextTitle.getText().toString();
-                    if (!text.equals("")) {
-                        dataSource.createIdea(editTextTitle.getText().toString(), (new Date()).getTime());
-                    }
+                    String title = editTextTitle.getText().toString();
+                    String notes = editTextNotes.getText().toString();
+                    if(!title.equals("")){
+                        Date date = new Date();
+                        textViewTime.setText("Created on " + new SimpleDateFormat("MM/dd/yyyy").format(date));
+                        dataSource.createIdea(title, notes, date.getTime());
+                    }//do not save a blank idea
+
                     finish();
                 }
             });
