@@ -1,4 +1,4 @@
-package com.example.android.idleidea;
+package com.robbypark.android.idleidea;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

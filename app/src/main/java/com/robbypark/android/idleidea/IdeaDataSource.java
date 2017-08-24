@@ -1,4 +1,4 @@
-package com.example.android.idleidea;
+package com.robbypark.android.idleidea;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.android.idleidea.MySQLiteHelper.COLUMN_TIME;
+import static com.robbypark.android.idleidea.MySQLiteHelper.COLUMN_TIME;
 
 /**
  * Created by Robby on 8/14/2017.
@@ -38,7 +38,7 @@ public class IdeaDataSource {
     public Idea createIdea(String title, String notes, long time) {
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_TITLE, title);
-        values.put(MySQLiteHelper.COLUMN_NOTES, title);
+        values.put(MySQLiteHelper.COLUMN_NOTES, notes);
         values.put(MySQLiteHelper.COLUMN_TIME, time);
         long insertId = database.insert(MySQLiteHelper.TABLE_IDEAS, null, values);
         Cursor cursor = database.query(MySQLiteHelper.TABLE_IDEAS, allColumns,

@@ -1,4 +1,4 @@
-package com.example.android.idleidea;
+package com.robbypark.android.idleidea;
 
 /**
  * Created by Robby on 8/14/2017.
