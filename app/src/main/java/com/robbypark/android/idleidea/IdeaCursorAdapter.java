@@ -49,20 +49,12 @@ public class IdeaCursorAdapter extends CursorAdapter {
         long diff = now - startTime;
 
         String output = "It has been ";
-        if(diff < MINUTE_MILLIS){
-            output += "0 minutes  ";
+        if(diff < HOUR_MILLIS){
+            output += "0 hours  ";
         }
 
-        while (diff >= MINUTE_MILLIS) {
-            if (diff < 60 * MINUTE_MILLIS) {
-                if (diff / MINUTE_MILLIS == 1) {
-                    output += "1 minute";
-                } else {
-                    output += diff / MINUTE_MILLIS + " minutes";
-                }
-                diff %= MINUTE_MILLIS;
-
-            } else if (diff < 24 * HOUR_MILLIS) {
+        while (diff >= HOUR_MILLIS) {
+            if (diff < 24 * HOUR_MILLIS) {
                 if (diff / HOUR_MILLIS == 1) {
                     output += "1 hour";
                 } else {
