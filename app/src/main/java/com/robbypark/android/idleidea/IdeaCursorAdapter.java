@@ -47,6 +47,7 @@ public class IdeaCursorAdapter extends CursorAdapter {
         Date date = new Date();
         long now = date.getTime();
         long diff = now - startTime;
+        int count = 0;
 
         String output = "It has been ";
         if(diff < HOUR_MILLIS){
@@ -83,9 +84,12 @@ public class IdeaCursorAdapter extends CursorAdapter {
                 }
                 diff %= YEAR_MILLIS;
             }
-            output += ", ";
+                output += ", ";
+            int target = output.lastIndexOf(",");
+            String temp = output.substring(0, target) + " and " + output.substring(target+2);
+            output = temp;
         }
-        output = output.substring(0, output.length() - 2);
+        output = output.substring(0, output.length() - 5);
 
         output += " since you thought of this idea.";
 
