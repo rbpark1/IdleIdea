@@ -47,12 +47,12 @@ public class IdeaCursorAdapter extends CursorAdapter {
         Date date = new Date();
         long now = date.getTime();
         long diff = now - startTime;
-        int count = 0;
+
+        if(diff < HOUR_MILLIS){
+            return "It has been 0 hours since you thought of this idea.";
+        }
 
         String output = "It has been ";
-        if(diff < HOUR_MILLIS){
-            output += "0 hours  ";
-        }
 
         while (diff >= HOUR_MILLIS) {
             if (diff < 24 * HOUR_MILLIS) {
