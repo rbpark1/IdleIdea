@@ -9,14 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.robbypark.android.idleidea.MainActivity">
+        <activity android:name="com.robbypark.android.idleidea.view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.robbypark.android.idleidea.IdeaActivity">
+        <activity android:name="com.robbypark.android.idleidea.view.IdeaActivity">
         </activity>
 
     </application>

@@ -1,4 +1,4 @@
-package com.robbypark.android.idleidea;
+package com.robbypark.android.idleidea.model;
 
 /**
  * Created by Robby on 8/14/2017.
@@ -11,12 +11,10 @@ public class Idea {
     private String notes;
     private long time;
 
-    public Idea(){
-    }
-
-    public Idea(long id, String title, long time) {
+    public Idea(long id, String title, String notes, long time) {
         this.id = id;
         this.title = title;
+        this.notes = notes;
         this.time = time;
     }
 

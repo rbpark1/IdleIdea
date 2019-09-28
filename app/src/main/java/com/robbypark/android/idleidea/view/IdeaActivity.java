@@ -1,4 +1,4 @@
-package com.robbypark.android.idleidea;
+package com.robbypark.android.idleidea.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,10 +9,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import com.robbypark.android.idleidea.R;
+import com.robbypark.android.idleidea.model.Idea;
+import com.robbypark.android.idleidea.presenter.Presenter;
+
 
 /**
  * Created by Robby on 8/17/2017.
@@ -26,7 +30,8 @@ public class IdeaActivity extends AppCompatActivity {
     private EditText editTextNotes;
     private Button buttonSave;
     private TextView textViewTime;
-    private IdeaDataSource dataSource;
+
+    private Presenter presenter;
     private Idea idea;
     private Bundle extras;
     private Date date;
@@ -41,14 +46,14 @@ public class IdeaActivity extends AppCompatActivity {
         buttonSave = (Button) findViewById(R.id.buttonSave);
         textViewTime = (TextView) findViewById(R.id.textViewTime);
 
-        dataSource = new IdeaDataSource(this);
-        dataSource.open();
+        presenter = Presenter.getInstance(getApplicationContext());
 
         extras = getIntent().getExtras();
         if (extras != null) {
             int value = extras.getInt("id");
-            List<Idea> list = dataSource.getAllIdeas();
+            List<Idea> list = presenter.getAllIdeas();
             idea = list.get(value);
+
             editTextTitle.setText(idea.getTitle());
             editTextNotes.setText(idea.getNotes());
             textViewTime.setText("Created on " + new SimpleDateFormat("MM/dd/yyyy").format(new Date(idea.getTime())));
@@ -58,11 +63,14 @@ public class IdeaActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     String title = editTextTitle.getText().toString();
                     String notes = editTextNotes.getText().toString();
-                    dataSource.updateIdea(idea, title, notes);
+                    presenter.updateIdeaTitle(idea, title);
+                    presenter.updateIdeaNotes(idea, notes);
+                    // close activity
                     finish();
                 }
             });
-        } else {//create new idea
+        } else {
+            //create new idea
             date = new Date();
             textViewTime.setText("Created on " + new SimpleDateFormat("MM/dd/yyyy").format(date));
             buttonSave.setOnClickListener(new View.OnClickListener() {
@@ -70,10 +78,11 @@ public class IdeaActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     String title = editTextTitle.getText().toString();
                     String notes = editTextNotes.getText().toString();
-                    if(!title.equals("")){
-                        dataSource.createIdea(title, notes, date.getTime());
-                    }//do not save a blank idea
 
+                    // ignore empty title
+                    if(!title.equals("")){
+                        presenter.insertIdea(title, notes, date.getTime());
+                    }
                     finish();
                 }
             });
@@ -93,7 +102,7 @@ public class IdeaActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch(id){
             case R.id.menuDelete:
-                dataSource.deleteIdea(idea);
+                presenter.deleteIdea(idea);
                 finish();
         }
         return super.onOptionsItemSelected(item);
