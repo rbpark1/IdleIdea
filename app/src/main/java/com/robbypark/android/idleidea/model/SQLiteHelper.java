@@ -15,6 +15,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_TITLE = "title";
     public static final String COLUMN_NOTES = "notes";
     public static final String COLUMN_TIME = "time";
+    public static final String COLUMN_DONE = "done";
 
     private static final String DATABASE_NAME = "ideas.db";
     private static final int DATABASE_VERSION = 1;
@@ -24,7 +25,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                     + COLUMN_ID + " integer primary key autoincrement, "
                     + COLUMN_TITLE + " text not null, "
                     + COLUMN_NOTES + " text not null, "
-                    + COLUMN_TIME + " integer);";
+                    + COLUMN_TIME + " integer, "
+                    + COLUMN_DONE + " integer);";
 
     public SQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

@@ -1,9 +1,14 @@
 package com.robbypark.android.idleidea.presenter;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.robbypark.android.idleidea.model.Idea;
 import com.robbypark.android.idleidea.model.IdeaDataSource;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 public class MainPresenter implements MainContract.Presenter {
@@ -17,12 +22,40 @@ public class MainPresenter implements MainContract.Presenter {
         mDataSource.open();
         mView = view;
 
-        mView.showIdeaList(mDataSource.getAllIdeas());
+        mView.showIdeaList(sortIdeas(mDataSource.getAllIdeas()));
+    }
+
+    private ArrayList<Idea> sortIdeas(ArrayList<Idea> ideas) {
+        Collections.sort(ideas, new Comparator<Idea>(){
+
+            public int compare(Idea i1, Idea i2)
+            {
+                if(i1.isDone() && i2.isDone() || !i1.isDone() && !i2.isDone()) {
+                    return 0;
+                } else if(i1.isDone() && !i2.isDone()) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+        });
+
+        return ideas;
     }
 
     @Override
     public void onIdeaListClick(Idea idea){
         mView.showIdeaActivity(idea);
+    }
+
+    @Override
+    public void onIdeaCheckboxClick(long id) {
+
+        Idea idea = mDataSource.getIdea(id);
+        idea.setDone(!idea.isDone());
+        mDataSource.updateIdea(idea);
+        refreshListView();
+        Log.d("MainPresenter", "Checkbox clicked");
     }
 
     @Override
@@ -32,13 +65,11 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void refreshListView() {
-        mView.updateIdeaList(mDataSource.getAllIdeas());
+        mView.updateIdeaList(sortIdeas(mDataSource.getAllIdeas()));
     }
 
     @Override
     public void onDestroy() {
         mDataSource.close();
     }
-
-
 }

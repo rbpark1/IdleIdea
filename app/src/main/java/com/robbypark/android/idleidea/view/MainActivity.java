@@ -1,9 +1,12 @@
 package com.robbypark.android.idleidea.view;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -15,7 +18,7 @@ import com.robbypark.android.idleidea.presenter.MainPresenter;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements MainContract.View {
+public class MainActivity extends AppCompatActivity implements MainContract.View, View.OnClickListener {
 
     private final String TAG = "MainActivity";
     private final String TAG_ID = "id";
@@ -92,4 +95,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         mAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onClick(View view) {
+        long id = (Long) view.getTag();
+        Log.d(TAG, "" + id);
+        mPresenter.onIdeaCheckboxClick(id);
+    }
 }

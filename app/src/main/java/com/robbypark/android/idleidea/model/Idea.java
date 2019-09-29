@@ -10,16 +10,18 @@ public class Idea {
     private String title;
     private String notes;
     private long time;
+    private boolean isDone;
 
     public Idea () {
 
     }
 
-    public Idea(long id, String title, String notes, long time) {
+    public Idea(long id, String title, String notes, long time, boolean isDone) {
         this.id = id;
         this.title = title;
         this.notes = notes;
         this.time = time;
+        this.isDone = isDone;
     }
 
     public long getId() {
@@ -56,5 +58,13 @@ public class Idea {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public boolean isDone() {
+        return isDone;
+    }
+
+    public void setDone(boolean done) {
+        isDone = done;
     }
 }

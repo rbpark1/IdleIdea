@@ -6,10 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.robbypark.android.idleidea.view.MainActivity;
-
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.robbypark.android.idleidea.model.SQLiteHelper.COLUMN_TIME;
 
@@ -25,11 +22,10 @@ public class IdeaDataSource {
 
     private SQLiteDatabase database;
     private SQLiteHelper dbHelper;
-    private String[] allColumns = {SQLiteHelper.COLUMN_ID, SQLiteHelper.COLUMN_TITLE, SQLiteHelper.COLUMN_NOTES, COLUMN_TIME};
+    private String[] allColumns = {SQLiteHelper.COLUMN_ID, SQLiteHelper.COLUMN_TITLE, SQLiteHelper.COLUMN_NOTES, COLUMN_TIME, SQLiteHelper.COLUMN_DONE};
 
     // Future: dependency injection Context
-    public static IdeaDataSource getInstance(Context context)
-    {
+    public static IdeaDataSource getInstance(Context context) {
         if (instance == null)
             instance = new IdeaDataSource(context);
 
@@ -41,7 +37,7 @@ public class IdeaDataSource {
     }
 
     public void open() throws SQLException {
-        if(database == null || !database.isOpen()) {
+        if (database == null || !database.isOpen()) {
             database = dbHelper.getWritableDatabase();
         }
     }
@@ -56,6 +52,7 @@ public class IdeaDataSource {
         values.put(SQLiteHelper.COLUMN_TITLE, idea.getTitle());
         values.put(SQLiteHelper.COLUMN_NOTES, idea.getNotes());
         values.put(SQLiteHelper.COLUMN_TIME, idea.getTime());
+        values.put(SQLiteHelper.COLUMN_DONE, idea.isDone());
 
         long insertId = database.insert(SQLiteHelper.TABLE_IDEAS, null, values);
     }
@@ -72,7 +69,7 @@ public class IdeaDataSource {
         String limit = null;
 
         Cursor cursor = database.query(table, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
-        if(cursor != null && cursor.getCount() > 0) {
+        if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             return getIdeaFromCursor(cursor);
         }
@@ -85,11 +82,13 @@ public class IdeaDataSource {
     }
 
     private Idea getIdeaFromCursor(Cursor cursor) {
+        boolean isDone = (cursor.getInt(4)) == 1; // 0 is false, 1 is true
         return new Idea(
                 cursor.getLong(0),
                 cursor.getString(1),
                 cursor.getString(2),
-                cursor.getLong(3));
+                cursor.getLong(3),
+                isDone);
     }
 
     public void deleteIdea(Idea idea) {
@@ -102,6 +101,7 @@ public class IdeaDataSource {
         ContentValues values = new ContentValues();
         values.put(SQLiteHelper.COLUMN_TITLE, idea.getTitle());
         values.put(SQLiteHelper.COLUMN_NOTES, idea.getNotes());
+        values.put(SQLiteHelper.COLUMN_DONE, idea.isDone() ? 1 : 0);
         database.update(SQLiteHelper.TABLE_IDEAS, values, SQLiteHelper.COLUMN_ID + " = ?",
                 new String[]{Long.toString(id)});
     }
