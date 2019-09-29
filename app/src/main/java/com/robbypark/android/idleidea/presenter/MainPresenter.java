@@ -25,18 +25,28 @@ public class MainPresenter implements MainContract.Presenter {
         mView.showIdeaList(sortIdeas(mDataSource.getAllIdeas()));
     }
 
+    // Sort: first compare isDone, then compare priority
     private ArrayList<Idea> sortIdeas(ArrayList<Idea> ideas) {
         Collections.sort(ideas, new Comparator<Idea>(){
 
             public int compare(Idea i1, Idea i2)
             {
-                if(i1.isDone() && i2.isDone() || !i1.isDone() && !i2.isDone()) {
-                    return 0;
+                // Compare isDone
+                int doneCompare;
+                if(i1.isDone() == i2.isDone()) {
+                    doneCompare = 0;
                 } else if(i1.isDone() && !i2.isDone()) {
-                    return 1;
+                    doneCompare = 1;
                 } else {
-                    return -1;
+                    doneCompare = -1;
                 }
+
+                if(doneCompare != 0) return doneCompare;
+
+                // Compare priority
+                Integer p1 = i1.getPriority();
+                Integer p2 = i2.getPriority();
+                return p2.compareTo(p1);
             }
         });
 

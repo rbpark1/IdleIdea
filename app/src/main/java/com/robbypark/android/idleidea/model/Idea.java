@@ -10,18 +10,22 @@ public class Idea {
     private String title;
     private String notes;
     private long time;
+    private int priority;
     private boolean isDone;
+    private long endTime;
 
     public Idea () {
 
     }
 
-    public Idea(long id, String title, String notes, long time, boolean isDone) {
+    public Idea(long id, String title, String notes, long time, boolean isDone, int priority, long endTime) {
         this.id = id;
         this.title = title;
         this.notes = notes;
         this.time = time;
         this.isDone = isDone;
+        this.priority = priority;
+        this.endTime = 0;
     }
 
     public long getId() {
@@ -66,5 +70,22 @@ public class Idea {
 
     public void setDone(boolean done) {
         isDone = done;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
+
+    public long getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(long endTime) {
+        this.endTime = endTime;
     }
 }

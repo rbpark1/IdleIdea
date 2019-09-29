@@ -22,7 +22,8 @@ public class IdeaDataSource {
 
     private SQLiteDatabase database;
     private SQLiteHelper dbHelper;
-    private String[] allColumns = {SQLiteHelper.COLUMN_ID, SQLiteHelper.COLUMN_TITLE, SQLiteHelper.COLUMN_NOTES, COLUMN_TIME, SQLiteHelper.COLUMN_DONE};
+    private String[] allColumns = {SQLiteHelper.COLUMN_ID, SQLiteHelper.COLUMN_TITLE, SQLiteHelper.COLUMN_NOTES, COLUMN_TIME, SQLiteHelper.COLUMN_DONE,
+    SQLiteHelper.COLUMN_PRIORITY, SQLiteHelper.COLUMN_ENDTIME};
 
     // Future: dependency injection Context
     public static IdeaDataSource getInstance(Context context) {
@@ -53,6 +54,8 @@ public class IdeaDataSource {
         values.put(SQLiteHelper.COLUMN_NOTES, idea.getNotes());
         values.put(SQLiteHelper.COLUMN_TIME, idea.getTime());
         values.put(SQLiteHelper.COLUMN_DONE, idea.isDone());
+        values.put(SQLiteHelper.COLUMN_PRIORITY, idea.getPriority());
+        values.put(SQLiteHelper.COLUMN_ENDTIME, idea.getEndTime());
 
         long insertId = database.insert(SQLiteHelper.TABLE_IDEAS, null, values);
     }
@@ -88,7 +91,9 @@ public class IdeaDataSource {
                 cursor.getString(1),
                 cursor.getString(2),
                 cursor.getLong(3),
-                isDone);
+                isDone,
+                cursor.getInt(5),
+                cursor.getLong(6));
     }
 
     public void deleteIdea(Idea idea) {
@@ -101,7 +106,10 @@ public class IdeaDataSource {
         ContentValues values = new ContentValues();
         values.put(SQLiteHelper.COLUMN_TITLE, idea.getTitle());
         values.put(SQLiteHelper.COLUMN_NOTES, idea.getNotes());
-        values.put(SQLiteHelper.COLUMN_DONE, idea.isDone() ? 1 : 0);
+        values.put(SQLiteHelper.COLUMN_DONE, idea.isDone());
+        values.put(SQLiteHelper.COLUMN_PRIORITY, idea.getPriority());
+        values.put(SQLiteHelper.COLUMN_ENDTIME, idea.getEndTime());
+
         database.update(SQLiteHelper.TABLE_IDEAS, values, SQLiteHelper.COLUMN_ID + " = ?",
                 new String[]{Long.toString(id)});
     }

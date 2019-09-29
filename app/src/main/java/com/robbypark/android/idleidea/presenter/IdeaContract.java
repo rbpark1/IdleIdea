@@ -13,6 +13,6 @@ public interface IdeaContract {
         void loadNewIdea();
         void onDestroy();
         void deleteIdea();
-        void updateIdea(String title, String notes);
+        void updateIdea(String title, String notes, int priority);
     }
 }

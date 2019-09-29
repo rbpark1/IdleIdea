@@ -46,12 +46,13 @@ public class IdeaPresenter implements IdeaContract.Presenter{
     }
 
     @Override
-    public void updateIdea(String title, String notes) {
+    public void updateIdea(String title, String notes, int priority) {
         if(title.equals("")) {
            return;
         }
         mIdea.setTitle(title);
         mIdea.setNotes(notes);
+        mIdea.setPriority(priority);
         // Update or insert into DB depending on if it is a new or existing idea
         if(mDataSource.containsIdea(mIdea)) {
             mDataSource.updateIdea(mIdea);
