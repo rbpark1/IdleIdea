@@ -34,8 +34,8 @@ public class IdeasAdapter extends ArrayAdapter<Idea> {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.list_item, parent, false);
-            viewHolder.title = (TextView) convertView.findViewById(R.id.tvTitle);
-            viewHolder.timeString = (TextView) convertView.findViewById(R.id.tvTimeString);
+            viewHolder.title =  convertView.findViewById(R.id.tvTitle);
+            viewHolder.timeString =  convertView.findViewById(R.id.tvTimeString);
 
             // Cache the viewHolder object inside the fresh view
             convertView.setTag(viewHolder);

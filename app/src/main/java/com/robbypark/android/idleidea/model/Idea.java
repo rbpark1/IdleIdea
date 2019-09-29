@@ -11,6 +11,10 @@ public class Idea {
     private String notes;
     private long time;
 
+    public Idea () {
+
+    }
+
     public Idea(long id, String title, String notes, long time) {
         this.id = id;
         this.title = title;
