@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         mAdapter.notifyDataSetChanged();
     }
 
+    // Checkbox click
     @Override
     public void onClick(View view) {
         long id = (Long) view.getTag();

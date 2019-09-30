@@ -25,7 +25,7 @@ public class Idea {
         this.time = time;
         this.isDone = isDone;
         this.priority = priority;
-        this.endTime = 0;
+        this.endTime = endTime;
     }
 
     public long getId() {

@@ -16,7 +16,9 @@ import com.robbypark.android.idleidea.R;
 import com.robbypark.android.idleidea.model.Idea;
 import com.robbypark.android.idleidea.presenter.Constants;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class IdeasAdapter extends ArrayAdapter<Idea> {
 
@@ -60,7 +62,14 @@ public class IdeasAdapter extends ArrayAdapter<Idea> {
 
         if(idea.isDone()) {
             viewHolder.title.setPaintFlags(viewHolder.title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            viewHolder.timeString.setText("Finished!"); // TODO
+            String timeString = new SimpleDateFormat("MM/dd/yy").format(new Date(idea.getTime()))
+                    + " - "
+                    + new SimpleDateFormat("MM/dd/yy").format(new Date(idea.getEndTime()))
+                    + ". It took "
+                    + DateUtils.getRelativeTimeSpanString(new Date().getTime() - (idea.getEndTime() - idea.getTime()));
+            timeString = timeString.substring(0, timeString.length() - 4) + "!";
+
+            viewHolder.timeString.setText(timeString);
         } else {
             viewHolder.title.setPaintFlags(viewHolder.title.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
             String timeString = "You thought of this " + DateUtils.getRelativeTimeSpanString(idea.getTime()).toString() + ".";

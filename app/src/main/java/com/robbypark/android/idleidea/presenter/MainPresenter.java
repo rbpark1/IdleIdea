@@ -7,8 +7,10 @@ import com.robbypark.android.idleidea.model.Idea;
 import com.robbypark.android.idleidea.model.IdeaDataSource;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 
 
 public class MainPresenter implements MainContract.Presenter {
@@ -63,6 +65,7 @@ public class MainPresenter implements MainContract.Presenter {
 
         Idea idea = mDataSource.getIdea(id);
         idea.setDone(!idea.isDone());
+        idea.setEndTime(new Date().getTime()); // current time
         mDataSource.updateIdea(idea);
         refreshListView();
         Log.d("MainPresenter", "Checkbox clicked");
