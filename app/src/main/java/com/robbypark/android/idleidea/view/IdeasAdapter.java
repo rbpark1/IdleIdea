@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.robbypark.android.idleidea.R;
+import com.robbypark.android.idleidea.TimeUtils;
 import com.robbypark.android.idleidea.model.Idea;
 import com.robbypark.android.idleidea.presenter.Constants;
 
@@ -65,9 +66,8 @@ public class IdeasAdapter extends ArrayAdapter<Idea> {
             String timeString = new SimpleDateFormat("MM/dd/yy").format(new Date(idea.getTime()))
                     + " - "
                     + new SimpleDateFormat("MM/dd/yy").format(new Date(idea.getEndTime()))
-                    + ". It took "
-                    + DateUtils.getRelativeTimeSpanString(new Date().getTime() - (idea.getEndTime() - idea.getTime()));
-            timeString = timeString.substring(0, timeString.length() - 4) + "!";
+                    + ". Total: "
+                    + TimeUtils.timeAgo(idea.getEndTime() - idea.getTime());
 
             viewHolder.timeString.setText(timeString);
         } else {
