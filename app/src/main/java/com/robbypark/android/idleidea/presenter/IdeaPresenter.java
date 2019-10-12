@@ -1,10 +1,7 @@
 package com.robbypark.android.idleidea.presenter;
 
-import android.content.Context;
-
 import com.robbypark.android.idleidea.model.Idea;
 import com.robbypark.android.idleidea.model.IdeaDataSource;
-
 import java.util.Date;
 
 public class IdeaPresenter implements IdeaContract.Presenter{
@@ -13,8 +10,8 @@ public class IdeaPresenter implements IdeaContract.Presenter{
     private IdeaContract.View mView;
     private Idea mIdea;
 
-    public IdeaPresenter(Context context, IdeaContract.View view) {
-        mDataSource = IdeaDataSource.getInstance(context);
+    public IdeaPresenter(IdeaContract.View view) {
+        mDataSource = IdeaDataSource.getInstance();
         mDataSource.open();
         mView = view;
     }
@@ -32,11 +29,6 @@ public class IdeaPresenter implements IdeaContract.Presenter{
         mIdea = new Idea();
         mIdea.setTime(new Date().getTime());
         mView.showIdea(mIdea);
-    }
-
-    @Override
-    public void onDestroy() {
-        // Do nothing
     }
 
     @Override

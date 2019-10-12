@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         mListView = findViewById(R.id.listView);
         FloatingActionButton fab = findViewById(R.id.fab);
 
-        mPresenter = new MainPresenter(getApplicationContext(), this);
+        mPresenter = new MainPresenter(this);
 
         // FAB
         fab.setOnClickListener(new View.OnClickListener() {

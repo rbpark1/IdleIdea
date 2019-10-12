@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.robbypark.android.idleidea.MyApp;
+
 import java.util.ArrayList;
 
 import static com.robbypark.android.idleidea.model.SQLiteHelper.COLUMN_TIME;
@@ -13,7 +15,7 @@ import static com.robbypark.android.idleidea.model.SQLiteHelper.COLUMN_TIME;
 
 /**
  * Created by Robby on 8/14/2017.
- * DAO data access object
+ * Singleton Data access object (DAO)
  * performs CRUD operations on ideas table by interfacing with SQLiteHelper
  */
 public class IdeaDataSource {
@@ -25,10 +27,9 @@ public class IdeaDataSource {
     private String[] allColumns = {SQLiteHelper.COLUMN_ID, SQLiteHelper.COLUMN_TITLE, SQLiteHelper.COLUMN_NOTES, COLUMN_TIME, SQLiteHelper.COLUMN_DONE,
     SQLiteHelper.COLUMN_PRIORITY, SQLiteHelper.COLUMN_ENDTIME};
 
-    // Future: dependency injection Context
-    public static IdeaDataSource getInstance(Context context) {
+    public static IdeaDataSource getInstance() {
         if (instance == null)
-            instance = new IdeaDataSource(context);
+            instance = new IdeaDataSource(MyApp.getContext());
 
         return instance;
     }

@@ -18,9 +18,9 @@ public class MainPresenter implements MainContract.Presenter {
     private IdeaDataSource mDataSource;
     private MainContract.View mView;
 
-    public MainPresenter(Context context, MainContract.View view) {
+    public MainPresenter(MainContract.View view) {
         // instantiate stuff
-        mDataSource = IdeaDataSource.getInstance(context);
+        mDataSource = IdeaDataSource.getInstance();
         mDataSource.open();
         mView = view;
 

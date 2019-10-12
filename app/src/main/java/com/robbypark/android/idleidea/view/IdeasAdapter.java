@@ -58,18 +58,17 @@ public class IdeasAdapter extends ArrayAdapter<Idea> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
+        if(idea == null) {
+            // Error
+            return convertView;
+        }
+
         // Populate the data from the data object via the viewHolder object into the template view.
         viewHolder.title.setText(idea.getTitle());
 
         if(idea.isDone()) {
             viewHolder.title.setPaintFlags(viewHolder.title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            String timeString = new SimpleDateFormat("MM/dd/yy").format(new Date(idea.getTime()))
-                    + " - "
-                    + new SimpleDateFormat("MM/dd/yy").format(new Date(idea.getEndTime()))
-                    + ". Total: "
-                    + TimeUtils.timeAgo(idea.getEndTime() - idea.getTime());
-
-            viewHolder.timeString.setText(timeString);
+            viewHolder.timeString.setText(getTimeString(idea));
         } else {
             viewHolder.title.setPaintFlags(viewHolder.title.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
             String timeString = "You thought of this " + DateUtils.getRelativeTimeSpanString(idea.getTime()).toString() + ".";
@@ -102,4 +101,15 @@ public class IdeasAdapter extends ArrayAdapter<Idea> {
         // Return the completed view to render on screen
         return convertView;
     }
+
+    // Creates a time string for completed idea
+    // EX: "9/9/19 - 9/12/19. Total: 10m10d10h"
+    private String getTimeString(Idea idea) {
+        return new SimpleDateFormat("MM/dd/yy").format(new Date(idea.getTime()))
+                + " - "
+                + new SimpleDateFormat("MM/dd/yy").format(new Date(idea.getEndTime()))
+                + ". Total: "
+                + TimeUtils.timeAgo(idea.getEndTime() - idea.getTime());
+    }
+
 }

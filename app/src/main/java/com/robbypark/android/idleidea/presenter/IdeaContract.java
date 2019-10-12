@@ -11,7 +11,7 @@ public interface IdeaContract {
     interface Presenter {
         void loadIdea(long id);
         void loadNewIdea();
-        void onDestroy();
+//        void onDestroy();
         void deleteIdea();
         void updateIdea(String title, String notes, int priority);
     }

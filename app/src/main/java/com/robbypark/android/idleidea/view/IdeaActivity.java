@@ -51,7 +51,7 @@ public class IdeaActivity extends AppCompatActivity implements IdeaContract.View
         textViewTime = findViewById(R.id.textViewTime);
         radioGroup = findViewById(R.id.radioGroup);
 
-        mPresenter = new IdeaPresenter(getApplicationContext(), this);
+        mPresenter = new IdeaPresenter(this);
 
         extras = getIntent().getExtras();
         if (extras != null) {
