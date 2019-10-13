@@ -3,7 +3,6 @@ package com.robbypark.android.idleidea.presenter;
 import com.robbypark.android.idleidea.model.Idea;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public interface MainContract {
     interface View {

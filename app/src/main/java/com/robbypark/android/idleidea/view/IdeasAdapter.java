@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.robbypark.android.idleidea.R;
 import com.robbypark.android.idleidea.TimeUtils;
 import com.robbypark.android.idleidea.model.Idea;
-import com.robbypark.android.idleidea.presenter.Constants;
+import com.robbypark.android.idleidea.Constants;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

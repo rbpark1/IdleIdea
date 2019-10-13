@@ -7,9 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.robbypark.android.idleidea.MyApp;
-
 import java.util.ArrayList;
-
 import static com.robbypark.android.idleidea.model.SQLiteHelper.COLUMN_TIME;
 
 

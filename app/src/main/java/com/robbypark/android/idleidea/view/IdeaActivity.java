@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,7 +17,7 @@ import java.util.Date;
 
 import com.robbypark.android.idleidea.R;
 import com.robbypark.android.idleidea.model.Idea;
-import com.robbypark.android.idleidea.presenter.Constants;
+import com.robbypark.android.idleidea.Constants;
 import com.robbypark.android.idleidea.presenter.IdeaContract;
 import com.robbypark.android.idleidea.presenter.IdeaPresenter;
 

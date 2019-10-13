@@ -1,7 +1,5 @@
 package com.robbypark.android.idleidea;
 
-import java.util.Calendar;
-
 public class TimeUtils {
 
     private static final int SECOND_MILLIS = 1000;

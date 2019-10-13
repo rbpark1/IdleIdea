@@ -1,13 +1,11 @@
 package com.robbypark.android.idleidea.presenter;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.robbypark.android.idleidea.model.Idea;
 import com.robbypark.android.idleidea.model.IdeaDataSource;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
