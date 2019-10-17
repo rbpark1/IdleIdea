@@ -17,9 +17,7 @@ import com.robbypark.android.idleidea.TimeUtils;
 import com.robbypark.android.idleidea.model.Idea;
 import com.robbypark.android.idleidea.Constants;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class IdeasAdapter extends ArrayAdapter<Idea> {
 
@@ -68,7 +66,7 @@ public class IdeasAdapter extends ArrayAdapter<Idea> {
 
         if(idea.isDone()) {
             viewHolder.title.setPaintFlags(viewHolder.title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            viewHolder.timeString.setText(getTimeString(idea));
+            viewHolder.timeString.setText(TimeUtils.getTimeString(idea.getTime(), idea.getEndTime()));
         } else {
             viewHolder.title.setPaintFlags(viewHolder.title.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
             String timeString = "You thought of this " + DateUtils.getRelativeTimeSpanString(idea.getTime()).toString() + ".";
@@ -93,23 +91,12 @@ public class IdeasAdapter extends ArrayAdapter<Idea> {
                 break;
         }
 
-
         viewHolder.checkBox.setChecked(idea.isDone());
         viewHolder.checkBox.setTag(idea.getId());
         viewHolder.checkBox.setOnClickListener((MainActivity) this.getContext());
 
         // Return the completed view to render on screen
         return convertView;
-    }
-
-    // Creates a time string for completed idea
-    // EX: "9/9/19 - 9/12/19. Total: 10m10d10h"
-    private String getTimeString(Idea idea) {
-        return new SimpleDateFormat("MM/dd/yy").format(new Date(idea.getTime()))
-                + " - "
-                + new SimpleDateFormat("MM/dd/yy").format(new Date(idea.getEndTime()))
-                + ". Total: "
-                + TimeUtils.timeAgo(idea.getEndTime() - idea.getTime());
     }
 
 }
