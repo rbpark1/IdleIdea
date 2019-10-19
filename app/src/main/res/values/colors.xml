@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Light Theme   -->
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="font_black">#de000000</color>
     <color name="font_black_lighter">#7b000000</color>
+
+    <!-- Dark Theme   -->
+    <color name="darkColorPrimary">#37474F</color>
+    <color name="darkColorPrimaryDark">#000000</color>
+    <color name="darkColorAccent">#FF4081</color>
+    <color name="font_white">#DEFFFFFF</color>
+
+    <!-- Priority indicator -->
     <color name="color_red">#E91E63</color>
     <color name="color_yellow">#FFEB3B</color>
     <color name="color_green">#4CAF50</color>
