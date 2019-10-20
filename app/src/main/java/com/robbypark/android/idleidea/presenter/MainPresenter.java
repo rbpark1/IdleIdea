@@ -1,7 +1,5 @@
 package com.robbypark.android.idleidea.presenter;
 
-import android.util.Log;
-
 import com.robbypark.android.idleidea.model.Idea;
 import com.robbypark.android.idleidea.model.IdeaDataSource;
 
@@ -20,8 +18,6 @@ public class MainPresenter implements MainContract.Presenter {
         // instantiate stuff
         this.dataSource = dataSource;
         this.dataSource.open();
-
-        this.view.showIdeaList(sortIdeas(this.dataSource.getAllIdeas()));
     }
 
     // Sort: first compare isDone, then compare priority
@@ -65,7 +61,6 @@ public class MainPresenter implements MainContract.Presenter {
         idea.setEndTime(new Date().getTime()); // current time
         dataSource.updateIdea(idea);
         refreshListView();
-        Log.d("MainPresenter", "Checkbox clicked");
     }
 
     @Override
@@ -81,6 +76,7 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void attachView(MainContract.View view) {
         this.view = view;
+        this.view.showIdeaList(sortIdeas(dataSource.getAllIdeas()));
     }
 
     @Override

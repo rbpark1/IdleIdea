@@ -91,10 +91,10 @@ public class IdeaPresenterTest {
         verify(ideaView, never()).closeView();
     }
 
-    @Test
-    public void idea_callDetachView() {
-        presenter.detachView();
-        verify(dataSource).close();
-    }
+//    @Test
+//    public void idea_callDetachView() {
+//        presenter.detachView();
+//        verify(dataSource).close();
+//    }
 
 }

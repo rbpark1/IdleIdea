@@ -30,7 +30,6 @@ public class IdeaPresenter implements IdeaContract.Presenter{
     @Override
     public void detachView() {
         view = null;
-        dataSource.close();
     }
 
     @Override
