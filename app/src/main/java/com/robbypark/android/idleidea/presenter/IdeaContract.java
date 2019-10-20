@@ -9,9 +9,10 @@ public interface IdeaContract {
     }
 
     interface Presenter {
+        void attachView(IdeaContract.View view);
+        void detachView();
         void loadIdea(long id);
         void loadNewIdea();
-//        void onDestroy();
         void deleteIdea();
         void updateIdea(String title, String notes, int priority);
     }

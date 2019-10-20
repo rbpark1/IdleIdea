@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import com.robbypark.android.idleidea.R;
 import com.robbypark.android.idleidea.model.Idea;
+import com.robbypark.android.idleidea.model.IdeaDataSource;
 import com.robbypark.android.idleidea.presenter.MainContract;
 import com.robbypark.android.idleidea.presenter.MainPresenter;
 
@@ -21,9 +22,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private final String TAG = "MainActivity";
     private final String TAG_ID = "id";
 
-    private IdeasAdapter mAdapter;
-    private ListView mListView;
-    private MainPresenter mPresenter;
+    private IdeasAdapter adapter;
+    private ListView listView;
+    private MainPresenter presenter;
 
     // Lifecycle callbacks
 
@@ -32,31 +33,32 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mListView = findViewById(R.id.listView);
+        listView = findViewById(R.id.listView);
         FloatingActionButton fab = findViewById(R.id.fab);
 
-        mPresenter = new MainPresenter(this);
+        presenter = new MainPresenter(IdeaDataSource.getInstance());
+        presenter.attachView(this);
 
         // FAB
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // open IdeaActivity with blank idea
-                mPresenter.onFabClick();
+                presenter.onFabClick();
             }
         });
     }
 
     @Override
     protected void onResume() {
-        mPresenter.refreshListView();
+        presenter.refreshListView();
         super.onResume();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mPresenter.onDestroy();
+        presenter.detachView();
     }
 
     // MainContract.View
@@ -74,23 +76,23 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void showIdeaList(ArrayList<Idea> ideas) {
         // ListView
-        mAdapter = new IdeasAdapter(this, ideas);
-        mListView.setAdapter(mAdapter);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        adapter = new IdeasAdapter(this, ideas);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // open IdeaActivity
                 Idea idea = (Idea) parent.getAdapter().getItem(position);
-                mPresenter.onIdeaListClick(idea);
+                presenter.onIdeaListClick(idea);
             }
         });
     }
 
     @Override
     public void updateIdeaList(ArrayList<Idea> ideas) {
-        mAdapter.clear();
-        mAdapter.addAll(ideas);
-        mAdapter.notifyDataSetChanged();
+        adapter.clear();
+        adapter.addAll(ideas);
+        adapter.notifyDataSetChanged();
     }
 
     // Checkbox click
@@ -98,6 +100,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     public void onClick(View view) {
         long id = (Long) view.getTag();
         Log.d(TAG, "" + id);
-        mPresenter.onIdeaCheckboxClick(id);
+        presenter.onIdeaCheckboxClick(id);
     }
 }

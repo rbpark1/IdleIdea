@@ -12,11 +12,12 @@ public interface MainContract {
     }
 
     interface Presenter {
+        void attachView(MainContract.View view);
+        void detachView();
         void onIdeaListClick(Idea idea);
         void onIdeaCheckboxClick(long id);
         void onFabClick();
         void refreshListView();
-        void onDestroy();
     }
 }
 

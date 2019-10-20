@@ -18,6 +18,7 @@ import java.util.Date;
 import com.robbypark.android.idleidea.R;
 import com.robbypark.android.idleidea.model.Idea;
 import com.robbypark.android.idleidea.Constants;
+import com.robbypark.android.idleidea.model.IdeaDataSource;
 import com.robbypark.android.idleidea.presenter.IdeaContract;
 import com.robbypark.android.idleidea.presenter.IdeaPresenter;
 
@@ -36,7 +37,7 @@ public class IdeaActivity extends AppCompatActivity implements IdeaContract.View
     private TextView textViewTime;
     private RadioGroup radioGroup;
 
-    private IdeaPresenter mPresenter;
+    private IdeaPresenter presenter;
     private Bundle extras;
 
     @Override
@@ -50,15 +51,16 @@ public class IdeaActivity extends AppCompatActivity implements IdeaContract.View
         textViewTime = findViewById(R.id.textViewTime);
         radioGroup = findViewById(R.id.radioGroup);
 
-        mPresenter = new IdeaPresenter(this);
+        presenter = new IdeaPresenter(IdeaDataSource.getInstance());
+        presenter.attachView(this);
 
         extras = getIntent().getExtras();
         if (extras != null) {
             long id = extras.getLong("id");
-            mPresenter.loadIdea(id);
+            presenter.loadIdea(id);
 
         } else {
-            mPresenter.loadNewIdea();
+            presenter.loadNewIdea();
         }
     }
 
@@ -75,7 +77,7 @@ public class IdeaActivity extends AppCompatActivity implements IdeaContract.View
         int id = item.getItemId();
         switch (id) {
             case R.id.menuDelete:
-                mPresenter.deleteIdea();
+                presenter.deleteIdea();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -104,8 +106,6 @@ public class IdeaActivity extends AppCompatActivity implements IdeaContract.View
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 String title = editTextTitle.getText().toString();
 
                 if(title.length() < 1) {
@@ -133,7 +133,7 @@ public class IdeaActivity extends AppCompatActivity implements IdeaContract.View
                         break;
                 }
 
-                mPresenter.updateIdea(title, notes, priority);
+                presenter.updateIdea(title, notes, priority);
             }
         });
     }
@@ -141,5 +141,11 @@ public class IdeaActivity extends AppCompatActivity implements IdeaContract.View
     @Override
     public void closeView() {
         finish();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.detachView();
     }
 }

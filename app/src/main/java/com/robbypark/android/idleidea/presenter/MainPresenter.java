@@ -13,16 +13,15 @@ import java.util.Date;
 
 public class MainPresenter implements MainContract.Presenter {
 
-    private IdeaDataSource mDataSource;
-    private MainContract.View mView;
+    private IdeaDataSource dataSource;
+    private MainContract.View view;
 
-    public MainPresenter(MainContract.View view) {
+    public MainPresenter(IdeaDataSource dataSource) {
         // instantiate stuff
-        mDataSource = IdeaDataSource.getInstance();
-        mDataSource.open();
-        mView = view;
+        this.dataSource = dataSource;
+        this.dataSource.open();
 
-        mView.showIdeaList(sortIdeas(mDataSource.getAllIdeas()));
+        this.view.showIdeaList(sortIdeas(this.dataSource.getAllIdeas()));
     }
 
     // Sort: first compare isDone, then compare priority
@@ -55,32 +54,38 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void onIdeaListClick(Idea idea){
-        mView.showIdeaActivity(idea);
+        view.showIdeaActivity(idea);
     }
 
     @Override
     public void onIdeaCheckboxClick(long id) {
 
-        Idea idea = mDataSource.getIdea(id);
+        Idea idea = dataSource.getIdea(id);
         idea.setDone(!idea.isDone());
         idea.setEndTime(new Date().getTime()); // current time
-        mDataSource.updateIdea(idea);
+        dataSource.updateIdea(idea);
         refreshListView();
         Log.d("MainPresenter", "Checkbox clicked");
     }
 
     @Override
     public void onFabClick() {
-        mView.showIdeaActivity(null);
+        view.showIdeaActivity(null);
     }
 
     @Override
     public void refreshListView() {
-        mView.updateIdeaList(sortIdeas(mDataSource.getAllIdeas()));
+        view.updateIdeaList(sortIdeas(dataSource.getAllIdeas()));
     }
 
     @Override
-    public void onDestroy() {
-        mDataSource.close();
+    public void attachView(MainContract.View view) {
+        this.view = view;
+    }
+
+    @Override
+    public void detachView() {
+        view = null;
+        dataSource.close();
     }
 }

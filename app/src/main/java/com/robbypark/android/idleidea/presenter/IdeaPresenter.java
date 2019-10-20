@@ -6,35 +6,45 @@ import java.util.Date;
 
 public class IdeaPresenter implements IdeaContract.Presenter{
 
-    private IdeaDataSource mDataSource;
-    private IdeaContract.View mView;
-    private Idea mIdea;
+    private IdeaDataSource dataSource;
+    private IdeaContract.View view;
+    private Idea idea;
 
-    public IdeaPresenter(IdeaContract.View view) {
-        mDataSource = IdeaDataSource.getInstance();
-        mDataSource.open();
-        mView = view;
+    public IdeaPresenter(IdeaDataSource dataSource) {
+        this.dataSource = dataSource;
+        dataSource.open();
     }
 
     @Override
     public void loadIdea(long id) {
         // get Idea with id
-        mIdea = mDataSource.getIdea(id);
-        mView.showIdea(mIdea);
+        idea = dataSource.getIdea(id);
+        view.showIdea(idea);
+    }
+
+    @Override
+    public void attachView(IdeaContract.View view) {
+        this.view = view;
+    }
+
+    @Override
+    public void detachView() {
+        view = null;
+        dataSource.close();
     }
 
     @Override
     public void loadNewIdea() {
         // create new Idea
-        mIdea = new Idea();
-        mIdea.setTime(new Date().getTime());
-        mView.showIdea(mIdea);
+        idea = new Idea();
+        idea.setTime(new Date().getTime());
+        view.showIdea(idea);
     }
 
     @Override
     public void deleteIdea() {
-        mDataSource.deleteIdea(mIdea);
-        mView.closeView();
+        dataSource.deleteIdea(idea);
+        view.closeView();
     }
 
     @Override
@@ -42,16 +52,18 @@ public class IdeaPresenter implements IdeaContract.Presenter{
         if(title.equals("")) {
            return;
         }
-        mIdea.setTitle(title);
-        mIdea.setNotes(notes);
-        mIdea.setPriority(priority);
+
+        idea.setTitle(title);
+        idea.setNotes(notes);
+        idea.setPriority(priority);
+
         // Update or insert into DB depending on if it is a new or existing idea
-        if(mDataSource.containsIdea(mIdea)) {
-            mDataSource.updateIdea(mIdea);
+        if(dataSource.containsIdea(idea)) {
+            dataSource.updateIdea(idea);
         } else {
-            mDataSource.insertIdea(mIdea);
+            dataSource.insertIdea(idea);
         }
 
-        mView.closeView();
+        view.closeView();
     }
 }
